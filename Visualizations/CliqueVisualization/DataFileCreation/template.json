@@ -1,0 +1,9 @@
+{
+    "universalFile": "C:/Users/asizo/Documents/myPrograms/dataFiles/data-pvalue-5-fin.json",
+    "minLinkTissueCount": 2,  
+    "tissues": ["Mac0", "Mac1"],
+    "minC3TissueCount": 1, 
+    "minC3Tissues": ["Mac0"], 
+    "DBScan": [20, 30000], 
+    "resultName": "demoResults/defaultFileForVisualization.json"
+}

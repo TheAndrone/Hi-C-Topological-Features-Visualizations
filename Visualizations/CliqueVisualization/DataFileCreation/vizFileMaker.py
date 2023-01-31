@@ -8,6 +8,7 @@ Created on Sat Jan  7 21:01:32 2023
 from universal import *
 from topologicalFeatures import *
 import json
+from pathlib import Path
 
 from sklearn.cluster import DBSCAN
 import numpy as np
@@ -114,6 +115,7 @@ class VisData:
         if type(fn)!=type("fn.json"): 
             chDataGiven.error("In VisData constructor DSName should be a string", self.DSName)
         if fn[-5:]!=".json": fn=fn+".json"
+        Path(fn[:(fn.rfind('/'))]).mkdir(parents=True, exist_ok=True) #create the path if it does not exist
         with open(fn, "w") as f:
             json.dump(res, f)
         
