@@ -1,0 +1,277 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Vis exp</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="../common/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../common/css/dc.min.css"/>
+        <link type="text/css" rel="stylesheet" href="../common/css/dc-floatleft.css"/>
+        <link href="../common/css/vis-network.min.css" rel="stylesheet" type="text/css" />
+        <link href="../common/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="..\common\css\vis-network.min.css" rel="stylesheet" type="text/css" />
+        <link href="..\common\css\c3.css" rel="stylesheet" type="text/css" />
+        <link href="..\common\css\dc.css" rel="stylesheet" type="text/css" />
+        <link href="..\common\css\bootstrap.css" rel="stylesheet" type="text/css" />
+        <style type="text/css">
+            #mynetwork {
+                width: 99%;
+                height: 99%;
+                border: 1px solid lightgray;
+                font-size: large;
+            }
+            #selectionDiv > *:not(#rangePart) {
+                padding: 5px;
+                margin: 5px;
+                border: 1px solid lightgray;
+            }
+            #rangePart > * {
+                margin: 5px;
+                padding: 0px 5px 0px 5px;
+                border: 1px solid lightgray; 
+            }
+            .allMyTinyFilters {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+                background-color: #ffffff;
+                padding: 10px;
+            }
+            /* #tissueSelect {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+            #tissueSelect >.myTissueTick {
+                vertical-align: baseline;
+            } */
+            .myBigPlots {
+                display: grid;
+                grid-template-columns: 2fr 3fr ;
+                
+
+            }
+            #number-box {
+                background: orange;
+                width: 200px;
+                font-size: 64px;
+                text-align: center;
+                padding-top: 63px;
+                padding-bottom: 63px;
+                height: 74px;
+                line-height: normal;
+                display:none;
+            }
+            table {
+                border-collapse: collapse;
+                border: 1px solid black;
+            } 
+
+            th,td {
+                border: 1px solid black;
+            }
+            #mySupertable {
+                table-layout: auto;
+                max-width: 100%;  
+            }
+            form * {
+                display: block;
+                margin: 10px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <script type="text/javascript" src="../common/js/d3.js"></script>
+        <script type="text/javascript" src="../common/js/crossfilter.js"></script>
+        <script type="text/javascript" src="../common/js/dc.js"></script>
+        <script type="text/javascript" src="../common/js/papaparse.min.js"></script>
+        <script type="text/javascript" src="../common/js/underscore-min.js"></script>
+        <script type="text/javascript" src="../common/js/FileSaver.js"></script>
+        <script type="text/javascript" src="../common/js/jquery-3.6.0.min.js"></script>
+        <script type="text/javascript" src="../common/js/vis-network.min.js"></script>
+        <script type="text/javascript" src="../common/js/jquery.csv.min.js"></script>
+        <script type="text/javascript" src="../common/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript" src="partBase.js"></script>
+
+        <div style="display:inline-flex">
+            <div id="selectionDiv"> 
+                <div>
+                    <input id="readFile" type="file" onchange="read(this)"/>
+                </div>  
+                <!--<div id="buttonPlaceholder"></div>     -->        
+            </div>
+        </div>
+        
+
+
+        <div id="mynetwork" >
+            
+            <!-- <a class="reset" href="javascript:container.doTheFullReset()" style="display: block;">reset</a> -->
+            <!-- <a id="myLink" class="reset" title="RESET" href="#" onclick="container.doTheFullReset();return false;">RESET</a> -->
+            <!-- <div id="selected"></div>
+
+            <div id="graphStats"></div>               
+
+
+            <div id="chrSelectOld"></div>
+            <br>
+            <div id="myTotalCliques"></div> -->
+            
+            <div class="allMyTinyFilters">
+                <div id = "mystats" class = "dc-data-count" style = "float: left; display: block; font-size: large;">
+                    <span class = "filter-count"></span> selected out of <span
+                       class = "total-count"></span> | <a href = "javascript:dc.filterAll();uncheckAllTicks();
+                       dc.renderAll();">Reset All</a>
+                 </div>
+                 <!-- <div id="buttonPlaceholder"></div> -->
+                 <div id="chrSelectDiv">
+                    <input type="button" value="<" onclick="selectPrev()">
+                    <select id="chrSelect" onchange="chromosomeChanged()"></select>
+                    <input type="button" value=">" onclick="selectNext()">
+
+                    <div>
+                        <input type="checkbox" name="checkCluster" class="myClusterTick" id="clusterTickGiant" value="2"  onclick="hideShowGroup();"> rem Giant? 
+                    </div>
+                    <div>
+                        <input type="checkbox" name="checkCluster" class="myClusterTick" id="clusterTickGarbage" value="1"  onclick="hideShowGroup();"> rem Garbage? 
+                    </div>
+    
+
+                 </div>
+                 <div id="tissueSelect"></div>
+                <div id="myConsistencyChartTag"></div> 
+                <div id="myConsistencyBarChartTag"></div>
+                <div id="myClusterChartTag"></div>
+                <div id="cliqueLengthNewTag"></div> 
+                
+                
+            </div>  <!-- end allMyTinyFilters -->
+            <div class="myBigPlots">
+                <div id="myScatterTag"> 
+                    <!-- <div class="reset" >selected: <span class="filter"></span>
+                        <a href="javascript:myScatterPlot.filterAll();dc.redrawAll();">reset</a>
+                    </div> -->
+                </div>  
+                <div class="myLongPlots">
+                    <div id="myAChart">
+
+                    </div>
+                    <div id="myBChart"></div>
+                    <div id="myCChart"></div>
+                </div>
+            </div> <!-- end myBigPlots -->
+
+            <div id="mySuperTableDiv">
+                <table id="mySuperTable">
+                    <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>A</th>
+                          <th>B</th>
+                          <th>C</th>
+                          <th>Tissues</th>
+                        </tr>
+                    </thead>
+                </table>
+                <input type="button" value="download CSV" onclick="downloadCSV()">
+            </div> 
+
+            <div>  
+            </div>
+
+            <div id="tissueCounts">
+
+            </div>
+
+
+            
+            
+            
+            
+            
+                 
+
+            <div id="myDummyChartTag"></div>
+            <div id="myDummyChartTag2"></div>
+                
+            
+        </div>         
+        <script type="text/javascript">
+
+      
+            
+            //window.onload = function() { container.showTissues(); }; //old start function
+            //window.onload = function() { container.startMagic();  } //start function
+            
+            //var container = new HiCContainer("mynetwork");
+
+
+            function readFile(file) {
+              return new Promise((resolve, reject) => {
+                let fr = new FileReader();
+                fr.onload = x=> resolve(fr.result);
+                fr.readAsText(file);
+            })}
+
+            async function read(input) {
+                text = await readFile(input.files[0]);
+                var dotList = input.files[0].name.split(".");
+                if (input.files[0].type === "application/json" || dotList[dotList.length - 1] === "json") {
+                    rez = JSON.parse(text);
+                    data = rez;
+                    iii = 1;
+                    console.log("read data", input.files[0].name)
+                    console.log(data);
+                    container.setData(data);
+                }
+            }
+
+            function downloadCSV(){
+                container.downloadCSV();
+            }
+
+            function chromosomeChanged(){
+                newChr = document.getElementById("chrSelect").value
+                container.changeChrTo(newChr);
+
+            }
+
+            function hideShowGroup(){ /////////////////////////////////////////////////// 
+
+                let checked = getCheckedByName('checkCluster');
+                let checkedInts = _.map(checked, function(v){return parseInt(v) });
+
+                checked = checkedInts.reduce((a, b) => a + b, 0);
+                container.showFilteredClusters(checked);
+
+            }
+
+            function selectNext(){
+                var sel = document.getElementById('chrSelect');
+                var i = sel.selectedIndex;
+                sel.options[++i%sel.options.length].selected = true;
+                chromosomeChanged();
+            }
+            function selectPrev(){
+                var sel = document.getElementById('chrSelect');
+                var i = sel.selectedIndex;
+                if (i==0) {
+                    i = sel.options.length;
+                }
+                i=i-1;
+                sel.options[i].selected = true;
+                chromosomeChanged();
+            }
+
+            
+
+
+
+            var container = new myContainer("mynetwork");
+            
+
+            //function showTissues() { container.showTissues() };
+
+        </script>
+    </body>
+</html>
