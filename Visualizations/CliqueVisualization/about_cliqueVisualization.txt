@@ -1,0 +1,6 @@
+In this directory the clique visualization is stored.
+It shows cliques in different dimensions.
+
+showCliqueViz.html should be opened to see this visualization. The html might use some files in the Visualizations directory and it's subdirectories.
+Visualization directory with all subdirectories should be copied to use this visualization.
+showCliqueViz.html uses partBase.js; libraries from Visaulizations/common/js and /css
