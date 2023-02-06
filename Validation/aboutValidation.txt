@@ -1,0 +1,4 @@
+In this directory is a collection of scripts that calculate and generate all necessary files that were used in the project.
+Using these programms, Universal datasets can be obtained from publically available datasets.
+
+Also TAD calculation scripts is included.

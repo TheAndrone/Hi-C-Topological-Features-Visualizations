@@ -1,6 +1,11 @@
 In this directory the clique visualization is stored.
 It shows cliques in different dimensions.
 
-showCliqueViz.html should be opened to see this visualization. The html might use some files in the Visualizations directory and it's subdirectories.
+showCliqueViz.html should be opened in any browser to see this visualization. The html might use some files in the Visualizations directory and it's subdirectories.
 Visualization directory with all subdirectories should be copied to use this visualization.
 showCliqueViz.html uses partBase.js; libraries from Visaulizations/common/js and /css
+
+Data file to choose example can be found in dataFilesToChooseExamples directory.
+To create a similar file with user's own data, users may use the createVisFileFromTemplate.py from the DataFileCreation directory.
+The template.json should be filled with data about user's own dataset.
+aboutTemplate.txt explains every field of the template.json
