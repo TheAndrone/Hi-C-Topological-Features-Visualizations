@@ -103,13 +103,13 @@
 
         
         
-        <div style="display:none">
+        <div style="display:inline-flex">
             <div id="selectionDiv"> 
                 <div>
                     <!-- <input id="readFile" type="file" onchange="readTemplate(this)"/> -->
                     <input id="startButton" type="button" value="Start" onclick="start()">
                 </div>  
-                <div id="buttonPlaceholder"></div>            
+                <div id="buttonPlaceholder" style="display:hidden"></div>            
             </div>
         </div>
 
@@ -203,10 +203,7 @@
         <div id="mygraph" style="display: none;"></div>      
         <script type="text/javascript">
 
-            $(document).ready(function(){
-                console.log("Launching...")
-                start();
-            });
+            
 
             
             

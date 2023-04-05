@@ -146,7 +146,15 @@ class myContainer {
     this.data = this.allData["chrValues"][this.curChr];
     this.subData = this.data;
     this.setMaxGiantID(newChr);
-    this.maxC = Math.max(...this.data.map((o) => o[3])) + 1;
+    //this.maxC = Math.max(...this.data.map((o) => o[3])) + 1; ///??????????????????????????????
+    let curMax=0;
+    _.each(this.data, function(el){
+      if (el[3]>curMax) {
+        curMax=el[3];
+      }
+    });
+    this.maxC = curMax+1;
+
   }
 
   showChrSelect() {
