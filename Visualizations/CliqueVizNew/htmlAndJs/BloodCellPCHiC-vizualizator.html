@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <title>Blood</title>
+        <title>BloodCellPCHiC</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
@@ -103,17 +103,17 @@
 
         
         
-        <div style="display:none">
+        <div style="display:inline-flex">
             <div id="selectionDiv"> 
                 <div>
                     <!-- <input id="readFile" type="file" onchange="readTemplate(this)"/> -->
                     <input id="startButton" type="button" value="Start" onclick="start()">
                 </div>  
-                <div id="buttonPlaceholder"></div>            
+                <div id="buttonPlaceholder" style="display:none"></div>            
             </div>
         </div>
 
-        <div id="graphVisDiv">
+        <div id="graphVisDiv" style="display: none">
             <input id="graphButton" type="button" value="Show graph" onclick="toggleView()">
             <input id="crossfilterButton" type="button" value="Show crossfilter" onclick="toggleView()" style="display: none;">
             <input id="freezeGraph" type="button" value="Freeze graph" onclick="freezeNodes()">
@@ -122,7 +122,7 @@
         </div>        
         
 
-        <div id="mynetwork" >
+        <div id="mynetwork" style="display: none">
             <div class="allMyTinyFilters">
                 <div id = "mystats" class = "dc-data-count" style = "float: left; display: block; font-size: large;">
                     <span class = "filter-count"></span> selected out of <span
@@ -203,10 +203,7 @@
         <div id="mygraph" style="display: none;"></div>      
         <script type="text/javascript">
 
-            window.addEventListener("load", (event) => {
-                console.log("Launching...")
-            start()
-            });
+            
 
             
             
@@ -239,8 +236,10 @@
             // }
             function start(){
                 //console.log(bloodCellGO);
-                container.setData(BloodCellPCHiCviz55);
-                container.GOData = bloodCellGO;
+                $('#mynetwork').show();
+                $('#graphVisDiv').show();
+                container.setData(bigData);
+                container.GOData = pcHiCGO;
             }
 
             function downloadCSV(){
