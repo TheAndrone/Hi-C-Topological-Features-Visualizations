@@ -1,0 +1,5 @@
+{
+    "baseDataPath":"../dataFilesToChoose/Blood-allChrs-WithClusters-pv5-Cliques2+-version1.json",
+    "GODataPath": "../dataFilesToChoose/data-pvalue-5-fin-GO-unique-names.json"
+
+}
