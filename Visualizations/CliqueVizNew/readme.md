@@ -6,8 +6,8 @@ Currently 3 datasets with pre-processed files are available:
 -3DIV: Kyukwang Kim et al. 3DIV update for 2021: a comprehensive resource of 3D genome and 3D cancer genome, Nucleic Acids Research, Volume 49, Issue D1 (2021)\
 
 ## How to open
-To launch the visualization, copy the whole folder locally and open any html file in the htmlAndJs directory. Press the "Start" button and the visualization will pop up in 5 to 10 seconds. 
-We suggest to use Google Chrome browser (112.0.5615.49 or newer) 
+To launch the visualization, copy the whole folder locally and open any html file in the htmlAndJs directory. Press the "Start" button and the visualization will pop up in 5 to 10 seconds. \
+We suggest to use Google Chrome browser (112.0.5615.49 or newer) \
 In order to include data files in the repository, large datasets were grouped by chromosomes, thus there are several html files for some datasets. Every html file uses data from /data directory, so you must have them copied locally as well.
 ## What is seen in the visualization
 ![image](https://user-images.githubusercontent.com/119489036/230384512-f07a0bca-1b3c-4433-aaa3-8c85084062b3.png)
