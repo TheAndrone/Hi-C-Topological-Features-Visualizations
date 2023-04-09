@@ -2,19 +2,68 @@ function addCheck(tissues) {
   var cases = tissues; //= this.allData["tissues"]
   var html = "";
   //html+= '<div id="nr'+t+'" style="float: none">'+t+'. We have <span class="number-display"></span> cliques.</div>'
-
+  html+='<div class="multiselect">'
+  html+='  <div class="selectBox" onclick="showCheckboxes()">'
+  html+='    <select><option>Select an option</option></select>'
+  html+='<div class="overSelect"></div> </div>'
+  html+='  <div id="checkboxes">'
+      // <label for="one">
+      //   <input type="checkbox" id="one" />First checkbox</label>
+      // <label for="two">
+      //   <input type="checkbox" id="two" />Second checkbox</label>
+      // <label for="three">
+      //   <input type="checkbox" id="three" />Third checkbox</label>
   _.each(cases.sort(), function (t) {
-    html +=
-      '<input type="checkbox" name="checkGroup" class="myTissueTick" id="' +
-      t +
-      '" value="' +
-      t +
-      '"  onclick="filter();" checked="checked"> ' +
-      t;
-  });
+        html +=
+          '<label for="'+t+'"><input type="checkbox" name="checkGroup" class="myTissueTick" id="' +
+          t +
+          '" value="' +
+          t +
+          '"  onclick="filter();" checked="checked"> ' +
+          t +'</label>';
+      });
+ 
+  // _.each(cases.sort(), function (t) {
+  //   html +=
+  //     '<input type="checkbox" name="checkGroup" class="myTissueTick" id="' +
+  //     t +
+  //     '" value="' +
+  //     t +
+  //     '"  onclick="filter();" checked="checked"> ' +
+  //     t;
+  // });
+  html+='</div></div>'
   $("#tissueSelect").append(html);
 }
 //vecais html += '<input type="checkbox" name="checkGroup" class="myTissueTick" id="' + t + '" value="' + t + '"  onclick="filter();" checked="checked"> '+ t
+
+
+
+
+
+
+
+var expanded = false;
+function showCheckboxes() {
+  var checkboxes = document.getElementById("checkboxes");
+  if (!expanded) {
+    checkboxes.style.display = "block";
+    expanded = true;
+  } else {
+    checkboxes.style.display = "none";
+    expanded = false;
+  }
+}
+
+
+
+
+
+
+
+
+
+
 
 function filter() {
   //called on change event of every checkbox

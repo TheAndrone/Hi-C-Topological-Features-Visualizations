@@ -83,6 +83,41 @@
                 margin: 10px;
             }
 
+            .multiselect {
+            width: 200px;
+            }
+
+            .selectBox {
+            position: relative;
+            }
+
+            .selectBox select {
+            width: 100%;
+            font-weight: bold;
+            }
+
+            .overSelect {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            }
+
+            #checkboxes {
+            display: none;
+            border: 1px #dadada solid;
+            position: absolute;
+            }
+
+            #checkboxes label {
+            display: block;
+            }
+
+            #checkboxes label:hover {
+            background-color: #1e90ff;
+            }
+
         </style>
     </head>
     <body>
@@ -103,7 +138,7 @@
 
         
         
-        <div style="display:inline-flex">
+        <div style="display:inline-flex" id ="startPlusDiv">
             <div id="selectionDiv"> 
                 <div>
                     <!-- <input id="readFile" type="file" onchange="readTemplate(this)"/> -->
@@ -238,6 +273,7 @@
                 //console.log(bloodCellGO);
                 $('#mynetwork').show();
                 $('#graphVisDiv').show();
+                $('#startPlusDiv').hide();
                 container.setData(bigData);
                 container.GOData = bloodCellGO;
             }
