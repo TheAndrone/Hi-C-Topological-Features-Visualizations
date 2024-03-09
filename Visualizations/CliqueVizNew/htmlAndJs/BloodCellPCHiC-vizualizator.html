@@ -17,6 +17,7 @@
                 height: 80vh;
                 border: 1px solid lightgray;
                 font-size: large;
+                margin-top: 1%;
             }
             #mygraph {
                 width: 99%;
@@ -44,16 +45,26 @@
                 border: 1px solid lightgray; 
             }
             .allMyTinyFilters {
-                display: grid;
-                grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+                /* display: block; */
+                /* grid-template-columns: 1fr 1fr 1fr; */
                 background-color: #ffffff;
                 padding: 10px;
+            }
+            .allMyTinyFilters > div {
+                float:left;
             }
             .myBigPlots {
                 display: grid;
                 grid-template-columns: 2fr 3fr ;
                 
+            }
 
+            .wrapper{
+                overflow: hidden;
+            }
+            .inner{
+                float: left;
+                margin-right: 35px;
             }
             #number-box {
                 background: orange;
@@ -84,7 +95,7 @@
             }
 
             .multiselect {
-            width: 200px;
+            width: auto;
             }
 
             .selectBox {
@@ -93,7 +104,7 @@
 
             .selectBox select {
             width: 100%;
-            font-weight: bold;
+            /* font-weight: bold; */
             }
 
             .overSelect {
@@ -117,6 +128,7 @@
             #checkboxes label:hover {
             background-color: #1e90ff;
             }
+ 
 
         </style>
     </head>
@@ -147,57 +159,73 @@
                 <div id="buttonPlaceholder" style="display:none"></div>            
             </div>
         </div>
+    <div id="mynetwork">
+        <div id="topDataRow" class="wrapper">
 
-        <div id="graphVisDiv" style="display: none">
+            <div id="chrSelectDiv" class="inner">
+                <input type="button" value="<" onclick="selectPrev()">
+                <select id="chrSelect" onchange="chromosomeChanged()"></select>
+                <input type="button" value=">" onclick="selectNext()">
+            </div>
+
+            <div id="tissueSelect" class="inner"></div>
+
+            <div class="inner">
+                <div>
+                    <input type="checkbox" name="checkCluster" class="myClusterTick"  id="clusterTickGiant" value="2"  onclick="hideShowGroup();"> rem Giant? 
+                </div>
+                <div>
+                    <input type="checkbox" name="checkCluster" class="myClusterTick" id="clusterTickGarbage" value="1"  onclick="hideShowGroup();"> rem Garbage? 
+                </div>
+            </div>
+            <div id = "mystats" class = "dc-data-count" class="inner" style = "float: left; display: block; font-size: large;">
+                <span class = "filter-count"></span> selected out of <span
+                   class = "total-count"></span> | <a href = "javascript:dc.filterAll();uncheckAllTicks();
+                   dc.renderAll();">Reset All</a>
+            </div>
+        </div>
+
+        <div id="everything" class="wrapper">
+            <div id="leftDiv" style="float:left; overflow:hidden;">
+                <div class="allMyTinyFilters" style="display:block; min-height: 280px;">
+                    <div id="myConsistencyBarChartTag"></div>
+                    <div id="myClusterChartTag"></div>
+                    <div id="cliqueLengthNewTag"></div> 
+                </div>  <!-- end allMyTinyFilters -->
+                <div id="myScatterTag"></div>    
+
+                
+
+            </div>
+            <div id="rightDiv" style="float:left; overflow:hidden;">
+                
+                <div id="myAChart"></div>
+                <div id="myBChart"></div>
+                <div id="myCChart"></div>
+    
+            </div>
+        </div>
+
+
+
+        
+        <div>
+        <div id="graphVisDiv" style="display: none; float:left;">
             <input id="graphButton" type="button" value="Show graph" onclick="toggleView()">
             <input id="crossfilterButton" type="button" value="Show crossfilter" onclick="toggleView()" style="display: none;">
             <input id="freezeGraph" type="button" value="Freeze graph" onclick="freezeNodes()">
             <input id="selectComponent" type="button" value="Select component" onclick="selectComponent()">
             <span id="graphDescription"></span>
-        </div>        
+            <input type="button" value="download CSV" onclick="downloadCSV()" style="float:left;"> 
+        </div> 
+            
+        </div>
+          
         
-
-        <div id="mynetwork" style="display: none">
-            <div class="allMyTinyFilters">
-                <div id = "mystats" class = "dc-data-count" style = "float: left; display: block; font-size: large;">
-                    <span class = "filter-count"></span> selected out of <span
-                       class = "total-count"></span> | <a href = "javascript:dc.filterAll();uncheckAllTicks();
-                       dc.renderAll();">Reset All</a>
-                 </div>
-                 <!-- <div id="buttonPlaceholder"></div> -->
-                 <div id="chrSelectDiv">
-                    <input type="button" value="<" onclick="selectPrev()">
-                    <select id="chrSelect" onchange="chromosomeChanged()"></select>
-                    <input type="button" value=">" onclick="selectNext()">
-
-                    <div>
-                        <input type="checkbox" name="checkCluster" class="myClusterTick" id="clusterTickGiant" value="2"  onclick="hideShowGroup();"> rem Giant? 
-                    </div>
-                    <div>
-                        <input type="checkbox" name="checkCluster" class="myClusterTick" id="clusterTickGarbage" value="1"  onclick="hideShowGroup();"> rem Garbage? 
-                    </div>
-    
-
-                 </div>
-                 <div id="tissueSelect"></div>
-                <div id="myConsistencyChartTag"></div> 
-                <div id="myConsistencyBarChartTag"></div>
-                <div id="myClusterChartTag"></div>
-                <div id="cliqueLengthNewTag"></div> 
-                
-                
-            </div>  <!-- end allMyTinyFilters -->
-            <div class="myBigPlots">
-                <div id="myScatterTag"> 
-                </div>  
-                <div class="myLongPlots">
-                    <div id="myAChart">
-
-                    </div>
-                    <div id="myBChart"></div>
-                    <div id="myCChart"></div>
-                </div>
-            </div> <!-- end myBigPlots -->
+    </div>
+        <div id="mynetwork2" style="display: none">
+            
+            
 
             <div id="mySuperTableDiv">
                 <table id="mySuperTable">
@@ -231,6 +259,7 @@
 
             <div id="myDummyChartTag"></div>
             <div id="myDummyChartTag2"></div>
+            <div id="myConsistencyChartTag"></div> 
                 
             
         </div>

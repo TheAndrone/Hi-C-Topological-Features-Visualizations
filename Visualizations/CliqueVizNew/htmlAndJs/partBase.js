@@ -4,7 +4,7 @@ function addCheck(tissues) {
   //html+= '<div id="nr'+t+'" style="float: none">'+t+'. We have <span class="number-display"></span> cliques.</div>'
   html+='<div class="multiselect">'
   html+='  <div class="selectBox" onclick="showCheckboxes()">'
-  html+='    <select><option>Select an option</option></select>'
+  html+='    <select><option>Select tissues</option></select>'
   html+='<div class="overSelect"></div> </div>'
   html+='  <div id="checkboxes">'
       // <label for="one">
