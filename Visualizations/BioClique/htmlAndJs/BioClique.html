@@ -1,0 +1,516 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Ensembl visualization</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/vis-network.min.css" type="text/css" />
+        <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" />
+        <link rel="stylesheet" href="..\css\vis-network.min.css" type="text/css" />
+        <link rel="stylesheet" href="..\css\c3.css" type="text/css" />
+        <link rel="stylesheet" href="..\css\dc.css" type="text/css" />
+        <link rel="stylesheet" href="..\css\bootstrap.css" type="text/css" />
+        <style type="text/css">
+            #mynetwork {
+                width: 99%;
+                /* height: 80vh; */
+                border: 1px solid lightgray;
+                font-size: large;
+            }
+            #mygraph {
+                width: 99%;
+                height: 99%;
+                /* height: 50vh; */
+                border: 1px solid lightgray;
+                background-color: snow;
+            }
+            #selectionDiv > *:not(#rangePart) {
+                padding: 5px;
+                margin: 5px;
+                border: 1px solid lightgray;
+            }
+            #graphVisDiv {
+                width: max-content;
+                padding: 5px;
+                margin: 5px;
+                border: 1px solid lightgray;
+            }
+            #graphDescription {
+                font-size: 10pt;
+            }
+            #rangePart > * {
+                margin: 5px;
+                padding: 0px 5px 0px 5px;
+                border: 1px solid lightgray; 
+            }
+            .allMyTinyFilters {
+                display: flex;
+                flex-direction: row;
+                background-color: #ffffff;
+                padding: 10px;
+            }
+            #uploadTissues {
+                padding-left: 10px;
+            }
+
+            #mystats {
+                /* float: left;  */
+                display: block; 
+                font-size: large;
+            }
+
+            .myBigPlots {
+                display: grid;
+                grid-template-columns: 2fr 3fr ;
+                
+
+            }
+            #number-box {
+                background: orange;
+                width: 200px;
+                font-size: 64px;
+                text-align: center;
+                padding-top: 63px;
+                padding-bottom: 63px;
+                height: 74px;
+                line-height: normal;
+                display:none;
+            }
+            table {
+                border-collapse: collapse;
+                border: 1px solid black;
+            } 
+
+            th,td {
+                border: 1px solid black;
+            }
+            #mySupertable {
+                table-layout: auto;
+                width: 100%;  
+            }
+            form * {
+                display: block;
+                margin: 10px;
+            }
+
+            #pieChartsDiv {
+                display: flex;
+                justify-content: space-between;  /* Optional: It spaces out the child divs equally across the parent */
+            }
+
+            /* Optional: Ensure each chart doesn't grow or shrink, and takes up equal space */
+            #pieChartsDiv > div {
+                flex: 1 0 auto;
+            }
+            
+            .chart-container {
+                width: 100%;
+                display: flex;
+                justify-content: start; /* Horizontally center the content */
+                align-items: start; /* Vertically center the content */
+                flex-wrap: nowrap; /* Do not wrap content to next line */
+                gap: 10px; /* Gap between each chart-group for better visibility */
+                padding-bottom: 10px;
+                background-color: #f9f9f9;
+            }
+
+            .chart-group {
+                width: 100%;
+                display: flex;
+                flex-direction: row; 
+                justify-content: start; /* Align content to the top */
+                align-items: center; /* Horizontally center the content */
+                gap: 10px; /* Gap between each extra-chart for better visibility */
+                border: 1px solid #ddd; /* A border to make the grouping visible */
+                padding: 10px; /* Padding inside each chart-group */
+            }
+            .chart-groupp {
+                display: flex;
+                flex-wrap: wrap;
+                flex-direction: row; 
+                justify-content: start; /* Align content to the top */
+                align-items: center; /* Horizontally center the content */
+                gap: 10px; /* Gap between each extra-chart for better visibility */
+                border: 1px solid #ddd; /* A border to make the grouping visible */
+                padding: 10px; /* Padding inside each chart-group */
+            }
+
+            .main-chart {
+                width: 100%; /* Ensures main chart takes up full width of its container */
+                background-color: #f0f0f0;
+                margin-bottom: 5px; /* Space between main chart and extra charts */
+                margin-top: 5px;
+            }
+
+            .extra-charts {
+                /* display: grid;
+                grid-template-columns: repeat(3, 1fr); Specifies up to 2 charts in one row */
+                max-width: 100%; /* set the maximum width to */
+                width: 100%;
+                margin: 0 auto; 
+                gap: 5px; /* Space between extra charts */
+            }
+
+            .extra-chart {
+                /* height: 50px; Set a specific height for extra charts to make them smaller */
+                background-color: #f0f0f0;
+            }
+
+            .wrapper {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+                grid-auto-rows: minmax(100px, auto);
+            }
+            #SomaticDiv0 {
+                grid-column: 1;
+                grid-row: 1;
+            }
+            #SomaticDiv1 {
+                grid-column: 1;
+                grid-row: 2;
+            }
+            #SomaticDiv2 {
+                grid-column: 1;
+                grid-row: 3;
+            }
+            #RNApolymeraseDiv{
+                grid-column: 1;
+                grid-row: 4;
+            }
+            #right-item-id {
+                grid-column: 2/5;
+                grid-row: 1/5;
+            }
+            /* #sandrasExtraChartsDiv{
+                background-color:rgb(171, 210, 197);
+            } */
+
+
+            .two-halves {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                column-gap: 10px;
+            }
+
+            .three-sides-auto {
+                display: grid;
+                grid-template-columns: repeat(3, auto);
+                column-gap: 10px;
+            }
+            .two-sides {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                column-gap: 10px;
+            }
+            .left-side {
+                grid-column: 1;
+            }
+            .right-side {
+                grid-column: 2/4;
+            }
+
+            .graph-div {
+                /* height: 1000px; */
+                aspect-ratio : 1 / 1;
+            }
+
+            .mytooltip {
+                display: hidden;
+                position: absolute;
+                background-color: #f9f9f9;
+                border: 1px solid #dcdcdc;
+                color: #3e3e3e;
+                padding: 5px;
+                border-radius: 5px;
+                z-index: 100000;
+            }
+
+
+
+
+        </style>
+    </head> 
+    <body>
+        <script type="text/javascript" src="../js/d3.js"></script>
+        <script type="text/javascript" src="../js/crossfilter.js"></script>
+        <script type="text/javascript" src="../js/dc.js"></script>
+        <script type="text/javascript" src="../js/papaparse.min.js"></script>
+        <script type="text/javascript" src="../js/underscore-min.js"></script>
+        <script type="text/javascript" src="../js/jquery-3.6.0.min.js"></script>
+        <script type="text/javascript" src="../js/vis-network.min.js"></script>
+
+        <script type="text/javascript" src="currentH.js"></script>
+        
+        
+        
+        <div style="display:inline-flex" id="readFileBigDiv">
+            <div id="selectionDiv"> 
+                <div>
+                    <input id="readFile" type="file" onchange="read(this)"/>
+                </div>  
+            </div> 
+        </div>
+        
+
+        <div id="mynetwork">
+            <div id="topSelectInfo" class="three-sides-auto" style="visibility: hidden;">
+                <div id="tinyFilters" class="allMyTinyFilters, chart-group">
+                    <div id="tissueSelect"></div>
+                    <div id="uploadTissues">
+                        <input type="button" value="Upload tissue" onclick="uploadSegments()">
+                    </div>
+                </div>
+
+                <div id="statsDownload" class="chart-group" style="visibility: hidden;">
+                    <div id = "mystats" >
+                        <span class = "filter-count"></span> selected out of <span
+                        class = "total-count"></span> | <a href = "javascript:resetAll();">Reset All</a>
+                    </div>
+                </div>  
+                <div id="downloadCSVBtnDiv" class="chart-group" style="visibility: hidden;">
+                    <input type="button" id="downloadCSVBTN" value="download CSV" disabled  onclick="downloadCSV()">
+                </div>  
+            </div>
+            
+            <div id="allCharts" style="visibility: hidden;">
+                
+                <div class="main-chart" id="LociDiv"></div>
+    
+    
+                <div class="chart-group">
+                    <div id="filter-display"></div>
+                    Coordinates : <input type="text" id="LociDiv_lower-bound" style="width: 100px; text-align: right; " />
+                    , <input type="text" id="LociDiv_upper-bound" style="width: 100px; text-align: right; " />
+                    &nbsp&nbsp Distance to closest GTEx gene : <input type="text" id="GTExDistanceDiv_lower-bound" style="width: 100px; text-align: right; " />
+                    , <input type="text" id="GTExDistanceDiv_upper-bound" style="width: 100px; text-align: right; " />
+                    &nbsp&nbsp Distance to closest FANTOM5 locus : <input type="text" id="FantomDistanceDiv_lower-bound" style="width: 100px; text-align: right; " />
+                    , <input type="text" id="FantomDistanceDiv_upper-bound" style="width: 100px; text-align: right; " />
+                    <button id="apply-filter">Apply Filter</button>
+                </div>
+
+                <div id="DistanceDivs" class="two-halves">
+                    <div class="main-chart" id="GTExDistanceDiv"></div>
+                    <div class="main-chart" id="FantomDistanceDiv"></div>
+                </div>
+                
+                <div class="two-sides">
+                    <div class="left-side">
+                        <div class="main-chart" id="GTExDiv"></div>
+                        <div class="main-chart" id="FantomDiv"></div>
+                        <div class="main-chart" id="ECentralityDiv"></div>
+                        <div class="main-chart" id="SomaticDiv0"></div>
+                        <div class="main-chart" id="SomaticDiv1"></div>
+                        <div class="main-chart" id="SomaticDiv2"></div>
+                        <div class="main-chart" id="RNApolymeraseDiv"></div>
+                    </div>
+                    <div class="right-side">
+                        <div class="graph-div"> <div id="mygraph"></div></div>
+                        
+                        <h4>ChromHMM annotations from Roadmap Epigenomics</h4>
+                        <div class="chart-container" id="pieChartsDiv">
+                            <div class="chart-groupp" id="sandrasExtraChartsDiv"></div>
+                        </div>    
+                        
+                        <br>
+                        <h4>Features from Ensembl</h4>                    
+                        <div class="chart-container">
+                            <div class="chart-groupp" id="ens1wr">
+                                <div class="extra-chart" id="miRNADivSmall1"></div>
+                            </div>
+            
+                            <div class="chart-groupp" id="ens2wr">
+                                <div class="extra-chart" id="otherFTCDivSmall1"></div>
+                                <div class="extra-chart" id="otherFTCDivSmall2"></div>
+                            </div>
+            
+                            <div class="chart-groupp" id="ens3wr">
+                                <div class="extra-chart" id="HumanRegFeatDivSmall1"></div>
+                                <div class="extra-chart" id="HumanRegFeatDivSmall2"></div>
+                                <div class="extra-chart" id="HumanRegFeatDivSmall3"></div>
+                                <div class="extra-chart" id="HumanRegFeatDivSmall4"></div>
+                                <div class="extra-chart" id="HumanRegFeatDivSmall5"></div>
+                            </div>
+                        </div>
+                        
+                        <br>
+                        <h4>Features from ENCODE</h4>
+                        <div class="chart-container">
+                            <div class="chart-groupp" id="encodeFeaturesDiv"></div>
+                        </div> 
+                    </div>    
+                </div>
+    
+                <!-- //////////////
+                <div class="chart-container">
+    
+                    <div class="chart-group">
+                        <div class="main-chart" id="SomaticDiv0"></div>
+                        <div class="main-chart" id="SomaticDiv1"></div>
+                        <div class="main-chart" id="SomaticDiv2"></div>
+                    </div>
+    
+                </div>
+                <div class="chart-group">
+                    <div id = "mystats" class = "dc-data-count" style = "float: left; display: block; font-size: large;">
+                        <span class = "filter-count"></span> selected out of <span
+                           class = "total-count"></span> | <a href = "javascript:dc.filterAll();uncheckAllTicks();
+                           dc.renderAll();">Reset All</a>
+                    </div>
+                </div>
+                
+                <div id="mygraph"></div>
+                /////////// -->
+                
+    
+                
+    
+                
+                
+                
+    
+                <div id="otherTissueSelect"></div>
+    
+                <div id="uploadSegments">
+                    <!-- <input type="button" value="Upload All Segments for graph" onclick="uploadAllGraph()">
+                    <input type="button" value="Upload Filtered for graph" onclick="uploadFilteredGraph()">
+                    
+                    <input type="button" value="Mark Current Segments" onclick="markSegments()">
+                    <input type="button" value="Unmark segments" onclick="unmarkSegments()"> -->
+                </div> 
+                
+    
+                
+            </div>
+                
+                
+            
+        </div> <!--  end mynetwork         -->
+        
+
+        
+        <script type="text/javascript">
+
+            async function readJSONFromDirectory(filePath) {
+                return new Promise(function(resolve, reject) {
+                    resolve($.getJSON(filePath, function (data) {
+                        console.log("readFromDirectory data", data);
+                        return data;
+                    }));
+                });
+            }
+
+            function readFile(file) {
+              return new Promise((resolve, reject) => {
+                let fr = new FileReader();
+                fr.onload = x=> resolve(fr.result);
+                fr.readAsText(file);
+            })}
+            async function read(input) {
+                let iii=9
+                text = await readFile(input.files[0]);
+                var dotList = input.files[0].name.split(".");
+                if (input.files[0].type === "application/json" || dotList[dotList.length - 1] === "json") {
+                    rez = JSON.parse(text);
+                    data = rez;
+                    iii = 1;
+                    console.log("read data", input.files[0].name)
+                    console.log(data);
+                    container.setData(data);
+                }
+                document.getElementById("topSelectInfo").style.visibility = "visible";
+            }
+
+
+            // function start(){
+            //     //console.log(bloodCellGO);
+            //     $('#mynetwork').show();
+            //     $('#graphVisDiv').show();
+            //     container.setData(bigData);
+            //     container.GOData = bloodCellGO;
+            // }
+
+
+            function chromosomeChanged(){
+                newChr = document.getElementById("chrSelect").value
+                container.changeChrTo(newChr);
+            }
+
+            function hideShowGroup(){ /////////////////////////////////////////////////// 
+                let checked = getCheckedByName('checkCluster');
+                let checkedInts = _.map(checked, function(v){return parseInt(v) });
+                checked = checkedInts.reduce((a, b) => a + b, 0);
+                container.showFilteredClusters(checked);
+            }
+
+            function selectNext(){
+                var sel = document.getElementById('chrSelect');
+                var i = sel.selectedIndex;
+                sel.options[++i%sel.options.length].selected = true;
+                chromosomeChanged();
+            }
+            function selectPrev(){
+                var sel = document.getElementById('chrSelect');
+                var i = sel.selectedIndex;
+                if (i==0) {
+                    i = sel.options.length;
+                }
+                i=i-1;
+                sel.options[i].selected = true;
+                chromosomeChanged();
+            }
+
+            function toggleView(){
+                $("#mynetwork").toggle();
+                $("#mygraph").toggle();
+                $("#graphButton").toggle();
+                $("#crossfilterButton").toggle();
+                if( $("#mygraph").is(':visible') ) {
+                    callMakeGraph();
+                }
+            }
+
+            function clearDiv(parent) { 
+                while(parent.firstChild) { 
+                    parent.removeChild(parent.firstChild); 
+                };
+            };
+
+
+            var container = new myContainer("mynetwork");
+            function resetAll(){
+                container.resetAll();
+            }
+            function uploadSegments(){
+                container.uploadSegments();
+                document.getElementById("statsDownload").style.visibility = "visible";
+                document.getElementById("downloadCSVBtnDiv").style.visibility = "visible";
+                document.getElementById("allCharts").style.visibility = "visible";
+            }
+
+
+            function markSegments(){
+                container.markSegments();
+            }
+            function unmarkSegments(){
+                container.unmarkSegments();
+            }
+
+
+            function uploadFilteredGraph(){
+                container.uploadFilteredGraph();
+            }
+            function uploadAllGraph(){
+                container.uploadAllGraph();
+            }
+
+            function downloadCSV(){
+                container.downloadCSV();
+            }
+            
+
+
+        </script>
+    </body>
+</html> 
